@@ -4,31 +4,21 @@ import javax.inject.Inject;
 import java.util.Random;
 import java.util.logging.Logger;
 
-/**
- * @author Antonio Goncalves
- *         APress Book - Beginning Java EE 7 with Glassfish 4
- *         http://www.apress.com/
- *         http://www.antoniogoncalves.org
- *         --
- */
 @EightDigits
 public class IssnGenerator implements NumberGenerator {
 
-  // ======================================
-  // =             Attributes             =
-  // ======================================
+    private final Logger logger;
 
-  @Inject
-  private Logger logger;
+    @Inject
+    public IssnGenerator(Logger logger) {
+        this.logger = logger;
+    }
 
-  // ======================================
-  // =          Business methods          =
-  // ======================================
-
-  @Loggable
-  public String generateNumber() {
-    String issn =  "8-" + Math.abs(new Random().nextInt());
-    logger.info("Generated ISBN : " + issn);
-    return issn;
-  }
+    @Loggable
+    @Override
+    public String generateNumber() {
+        String issn = "8-" + Math.abs(new Random().nextInt());
+        logger.info("Сгенерирован ISSN : " + issn);
+        return issn;
+    }
 }

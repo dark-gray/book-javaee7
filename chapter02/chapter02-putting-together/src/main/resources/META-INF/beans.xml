@@ -6,4 +6,8 @@
     <interceptors>
         <class>org.agoncal.book.javaee7.chapter02.LoggingInterceptor</class>
     </interceptors>
+
+    <decorators>
+        <class>org.agoncal.book.javaee7.chapter02.NumberGeneratorDecorator</class>
+    </decorators>
 </beans>
