@@ -1,3 +1,5 @@
+forked from https://github.com/agoncal/agoncal-book-javaee7
+
 # Beginning Java EE 7
 
 * [Antonio Goncalves](http://www.antoniogoncalves.org)
