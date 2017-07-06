@@ -5,92 +5,73 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-/**
- * @author Antonio Goncalves
- *         APress Book - Beginning Java EE 7 with Glassfish 4
- *         http://www.apress.com/
- *         http://www.antoniogoncalves.org
- *         --
- */
 public class Customer {
 
-  // ======================================
-  // =             Attributes             =
-  // ======================================
+    @NotNull
+    @Size(min = 2)
+    private String firstName;
+    private String lastName;
+    @Email
+    private String email;
+    private String phoneNumber;
+    @Past
+    private Date dateOfBirth;
+    private Address deliveryAddress;
 
-  @NotNull
-  @Size(min = 2)
-  private String firstName;
-  private String lastName;
-  @Email
-  private String email;
-  private String phoneNumber;
-  @Past
-  private Date dateOfBirth;
-  private Address deliveryAddress;
+    public Customer() {
+    }
 
-  // ======================================
-  // =            Constructors            =
-  // ======================================
+    public Customer(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
-  public Customer() {
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public Customer(String firstName, String lastName, String email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  // ======================================
-  // =          Getters & Setters         =
-  // ======================================
+    public String getLastName() {
+        return lastName;
+    }
 
-  public String getFirstName() {
-    return firstName;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public String getLastName() {
-    return lastName;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
 
-  public String getPhoneNumber() {
-    return phoneNumber;
-  }
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
-  }
+    public Address getDeliveryAddress() {
+        return deliveryAddress;
+    }
 
-  public Date getDateOfBirth() {
-    return dateOfBirth;
-  }
-
-  public void setDateOfBirth(Date dateOfBirth) {
-    this.dateOfBirth = dateOfBirth;
-  }
-
-  public Address getDeliveryAddress() {
-    return deliveryAddress;
-  }
-
-  public void setDeliveryAddress(Address deliveryAddress) {
-    this.deliveryAddress = deliveryAddress;
-  }
+    public void setDeliveryAddress(Address deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
 }

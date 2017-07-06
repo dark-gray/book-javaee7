@@ -9,7 +9,7 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Qualifier
+@Target({FIELD, TYPE, METHOD, PARAMETER})
 @Retention(RUNTIME)
-@Target({FIELD, TYPE, METHOD})
 public @interface USA {
 }

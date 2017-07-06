@@ -6,32 +6,31 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author Antonio Goncalves
- *         APress Book - Beginning Java EE 7 with Glassfish 4
- *         http://www.apress.com/
- *         http://www.antoniogoncalves.org
- *         --
- */
 public class ZipCodeValidator implements ConstraintValidator<ZipCode, String> {
 
-  @Inject
-  @USA
-  private ZipCodeChecker checker = new ZipCodeChecker();
-  private Pattern zipPattern = Pattern.compile("\\d{5}(-\\d{5})?");
+    private ZipCodeChecker checker;
+    private final Pattern zipPattern = Pattern.compile("\\d{5}(-\\d{5})?");
 
-  @Override
-  public void initialize(ZipCode zipCode) {
-  }
+    // При внедрении через конструктор не работает интеграционный тест.
+    @Inject
+    public void setChecker(@USA ZipCodeChecker checker) {
+        this.checker = checker;
+    }
 
-  @Override
-  public boolean isValid(String value, ConstraintValidatorContext context) {
-    if (value == null)
-      return true;
+    @Override
+    public void initialize(ZipCode zipCode) {
+    }
 
-    Matcher m = zipPattern.matcher(value);
-    if (!m.matches())
-      return false;
-    return checker.isZipCodeValid(value);
-  }
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
+        if (value == null) {
+            return true;
+        }
+
+        Matcher m = zipPattern.matcher(value);
+        if (!m.matches()) {
+            return false;
+        }
+        return checker.isZipCodeValid(value);
+    }
 }

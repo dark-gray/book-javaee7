@@ -10,30 +10,18 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author Antonio Goncalves
- *         APress Book - Beginning Java EE 7 with Glassfish 4
- *         http://www.apress.com/
- *         http://www.antoniogoncalves.org
- *         --
- */
 public class AddressIT {
 
-  // ======================================
-  // =              Methods               =
-  // ======================================
+    @Test
+    public void shouldRaiseConstraintViolationCauseInvalidZipCode() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
 
-  @Test
-  public void shouldRaiseConstraintViolationCauseInvalidZipCode() {
+        Address address = new Address("742 Evergreen Terrace", "Springfield", "Springfield State", "dummyZip", "USA");
 
-    ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
-    Validator validator = vf.getValidator();
+        Set<ConstraintViolation<Address>> violations = validator.validate(address);
+        assertEquals(1, violations.size());
 
-    Address address = new Address("233 Spring Street", "New York", "NY", "DummyZip", "USA");
-
-    Set<ConstraintViolation<Address>> violations = validator.validate(address);
-    assertEquals(1, violations.size());
-
-    vf.close();
-  }
+        validatorFactory.close();
+    }
 }

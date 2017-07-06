@@ -2,7 +2,6 @@ package org.agoncal.book.javaee7.chapter03;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
@@ -13,60 +12,39 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author Antonio Goncalves
- *         APress Book - Beginning Java EE 7 with Glassfish 4
- *         http://www.apress.com/
- *         http://www.antoniogoncalves.org
- *         --
- */
 public class CustomerIT {
 
-  // ======================================
-  // =             Attributes             =
-  // ======================================
+    private static ValidatorFactory validatorFactory;
+    private static Validator validator;
 
-  private static ValidatorFactory vf;
-  private static Validator validator;
+    @BeforeClass
+    public static void init() {
+        validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
 
-  // ======================================
-  // =          Lifecycle Methods         =
-  // ======================================
+    @AfterClass
+    public static void close() {
+        validatorFactory.close();
+    }
 
-  @BeforeClass
-  public static void init() {
-    vf = Validation.buildDefaultValidatorFactory();
-    validator = vf.getValidator();
-  }
+    @Test
+    public void shouldRaiseNoConstraintViolation() {
+        Customer customer = new Customer("John", "Smith", "jsmith@mail.com");
 
-  @AfterClass
-  public static void close() {
-    vf.close();
-  }
+        Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+        assertEquals(0, violations.size());
+    }
 
-  // ======================================
-  // =              Methods               =
-  // ======================================
-
-  @Test
-  public void shouldRaiseNoConstraintViolation() {
-
-    Customer customer = new Customer("John", "Smith", "jsmith@gmail.com");
-
-    Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
-    assertEquals(0, violations.size());
-  }
-
-  @Test
+    @Test
 //  @Ignore("Make sure your local is EN, if not use the following JVM parameters : -Duser.language=en -Duser.country=EN")
-  public void shouldRaiseConstraintViolationCauseInvalidEmail() {
+    public void shouldRaiseConstraintViolationCauseInvalidEmail() {
+        Customer customer = new Customer("John", "Smith", "dummyEmail");
 
-    Customer customer = new Customer("John", "Smith", "DummyEmail");
-
-    Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
-    assertEquals(1, violations.size());
-    assertEquals("invalid email address", violations.iterator().next().getMessage());
-    assertEquals("DummyEmail", violations.iterator().next().getInvalidValue());
-    assertEquals("{org.agoncal.book.javaee7.chapter03.Email.message}", violations.iterator().next().getMessageTemplate());
-  }
+        Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+        assertEquals(1, violations.size());
+        assertEquals("invalid email address", violations.iterator().next().getMessage());
+        assertEquals("dummyEmail", violations.iterator().next().getInvalidValue());
+        assertEquals("{org.agoncal.book.javaee7.chapter03.Email.message}", violations.iterator().next().getMessageTemplate());
+    }
 }
